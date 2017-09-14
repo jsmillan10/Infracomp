@@ -1,2 +1,2 @@
 # Infracomp
-Casos Infracomp
+Faroleo Infracomp
