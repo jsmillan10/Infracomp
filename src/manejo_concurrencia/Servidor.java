@@ -2,11 +2,28 @@ package manejo_concurrencia;
 
 public class Servidor extends Thread{
 
-	private int numServidores;
 	public static Buffer buffer;		
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+	public void run() 
+	{
+		try {
+			
+			while(buffer.numClientes!=0)
+			{
+				Mensaje men = buffer.consumir();
+				synchronized (men) {
+					men.setContenido(men.getContenido()+1);
+					men.notify();
+				}
+			}
+			synchronized (buffer) {				
+				buffer.notifyAll();
+			}
+		}
+		catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

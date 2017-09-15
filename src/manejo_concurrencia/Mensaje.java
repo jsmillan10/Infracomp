@@ -4,21 +4,31 @@ public class Mensaje {
 
 	public static Buffer buffer;
 	private int contenido;
-
+	
 	public Mensaje(int con)
 	{
 		contenido = con;
 	}
 
-	public void enviar() throws InterruptedException
+	public boolean  enviar() throws InterruptedException
 	{
-		boolean seMando = false;
-		while(!seMando)
-		{
-			seMando = buffer.depositar(this);
-		}
 		
+		return buffer.depositar(this);
+
+	}
+	
+	public static void ultimoMensaje()
+	{
+		buffer.numClientes--;
 	}
 
+	public int getContenido() {
+		return contenido;
+	}
 
+	public void setContenido(int contenido) {
+		this.contenido = contenido;
+	}
+	
+	
 }

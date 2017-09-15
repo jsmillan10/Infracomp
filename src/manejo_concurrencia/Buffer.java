@@ -4,28 +4,55 @@ import sun.misc.Queue;
 
 public class Buffer {
 
-	public int capacidad;
+	
 	public int tamCola;
+	public int capacidad;
 	public Queue<Mensaje> espera;
+	public int numClientes;
 
-	public Buffer(int capacidad)
+	public Buffer(int capacidad, int num)
 	{
+		espera = new Queue<>();
+		this.tamCola = 0;
 		this.capacidad = capacidad;
-		tamCola = 0;
+		numClientes = num;
+		
 	}
 
 	public synchronized boolean depositar(Mensaje m) throws InterruptedException
 	{
 		boolean seMando = false;
-		if(capacidad > 0)
+		if(tamCola < capacidad)
 		{
-			capacidad--;	
-			tamCola++;
+			System.out.println(m.getContenido());
+			tamCola++;	
 			espera.enqueue(m);
 			seMando = true;
-			wait();
+			notifyAll();
+			synchronized (m) {
+				m.wait();				
+			}
+			tamCola--;
 		}
 		return seMando;
+	}
+	
+	public synchronized Mensaje consumir() throws InterruptedException
+	{
+		while(tamCola == 0)
+		{
+			wait();
+			if(numClientes==0)
+			{
+				return null;
+			}
+		}
+		return espera.dequeue();
+		
+	}
+	
+	public synchronized int darNumClientes() {
+		return numClientes;
 	}
 
 }
