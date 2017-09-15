@@ -3,7 +3,7 @@ package manejo_concurrencia;
 
 public class Cliente extends Thread{
 
-	
+
 	private Mensaje[] mensajes;
 
 	public Cliente(int numMen)
@@ -14,11 +14,23 @@ public class Cliente extends Thread{
 		}
 	}
 
+	public void run()
+	{
+		try {
+			for (int i = 0; i < mensajes.length; i++) {
+				mensajes[i].enviar();
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-	
-	
+
+
+
 	public static void main(String[] args) {
-		
+
 		// TODO Auto-generated method stub
 
 	}
