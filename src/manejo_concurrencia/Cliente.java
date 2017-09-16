@@ -1,5 +1,9 @@
 package manejo_concurrencia;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Cliente extends Thread{
 
@@ -36,11 +40,12 @@ public class Cliente extends Thread{
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		int numClientes = 7;
-		int numServidores = 9;
-		int capacidadBuffer = 15;
+		BufferedReader lector = new BufferedReader(new FileReader("./datos/datos.txt"));
+		int numClientes = Integer.parseInt(lector.readLine());
+		int numServidores = Integer.parseInt(lector.readLine());;
+		int capacidadBuffer = Integer.parseInt(lector.readLine());;
 
 		Buffer buffer = new Buffer(capacidadBuffer,numClientes);
 		Mensaje.buffer = buffer;
