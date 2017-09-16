@@ -29,10 +29,9 @@ public class Buffer {
 			espera.enqueue(m);
 			seMando = true;
 			notifyAll();
-			synchronized (m) {
-				m.wait();				
-			}
-			tamCola--;
+//			synchronized (m) {
+//				m.wait();				
+//			}			
 		}
 		return seMando;
 	}
@@ -47,6 +46,7 @@ public class Buffer {
 				return null;
 			}
 		}
+		tamCola--;
 		return espera.dequeue();
 		
 	}

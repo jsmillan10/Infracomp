@@ -7,13 +7,16 @@ public class Servidor extends Thread{
 	public void run() 
 	{
 		try {
-			
+//			sleep(1000); //Si los servidores se demoran en arrancar -- OK.
 			while(buffer.numClientes!=0)
 			{
 				Mensaje men = buffer.consumir();
-				synchronized (men) {
-					men.setContenido(men.getContenido()+1);
-					men.notify();
+				sleep(1000); // Si el servidor se demora en responder -- 
+				if (men != null){
+					synchronized (men) {
+						men.setContenido(men.getContenido()+1);
+						men.notify();
+					}
 				}
 			}
 			synchronized (buffer) {				

@@ -13,7 +13,7 @@ public class Cliente extends Thread{
 	public void run()
 	{
 		try {
-			
+//			sleep(1000); //Si los clientes se demoran en arrancar -- OK.
 			for (int i = 0; i < numMensajes; i++) {
 				boolean seMando = false;
 				Mensaje actual = new Mensaje (i); 
@@ -22,6 +22,10 @@ public class Cliente extends Thread{
 					seMando = actual.enviar();
 					if(!seMando)
 						yield();
+				}
+//				sleep(1000); Si el cliente se demora en dormirse en el mensaje -- NOT OK.
+				synchronized (actual) {
+					actual.wait();				
 				}
 			}
 			//TODO conectar servidor
