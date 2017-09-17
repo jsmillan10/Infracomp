@@ -11,7 +11,7 @@ public class Servidor extends Thread{
 			while(buffer.numClientes!=0)
 			{
 				Mensaje men = buffer.consumir();
-				sleep(1000); // Si el servidor se demora en responder -- 
+//				sleep(1000); // Si el servidor se demora en responder -- OK.
 				if (men != null){
 					synchronized (men) {
 						men.setContenido(men.getContenido()+1);

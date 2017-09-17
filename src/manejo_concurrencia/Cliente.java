@@ -25,17 +25,16 @@ public class Cliente extends Thread{
 				boolean seMando = false;
 				Mensaje actual = new Mensaje (i); 
 				while(!seMando)
-				{
-					seMando = actual.enviar();
-					if(!seMando)
-						yield();
-				}
-//				sleep(1000); Si el cliente se demora en dormirse en el mensaje -- NOT OK.
-				synchronized (actual) {
-					actual.wait();				
+				{					
+					synchronized (actual) {
+						seMando = actual.enviar();
+						if(!seMando)
+							yield();
+						sleep(1000); //Si el cliente se demora en dormirse en el mensaje -- NOT OK.
+						actual.wait();				
+					}
 				}
 			}
-			//TODO conectar servidor
 			Mensaje.ultimoMensaje();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -69,6 +68,14 @@ public class Cliente extends Thread{
 		for (int i = 0; i < numClientes; i++) {
 			(new Cliente(mensajesPorCliente[i])).start();
 		}
+		
+//		for (int i = 0; i < 1; i++) {
+//			(new Servidor()).start();
+//		}
+//
+//		for (int i = 0; i < 1; i++) {
+//			(new Cliente(mensajesPorCliente[i])).start();
+//		}
 	}
 
 }
